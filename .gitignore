@@ -1,3 +1,7 @@
+# Files
+config.py
+database.sqlite
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -9,6 +13,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+.vscode/
 develop-eggs/
 dist/
 downloads/
@@ -25,6 +30,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+logs/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
