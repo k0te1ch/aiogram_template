@@ -20,6 +20,7 @@ greenlet==1.1.2
 hiredis==2.0.0
 idna==3.3
 iniconfig==2.0.0
+loguru==0.7.0
 Mako==1.1.6
 MarkupSafe==2.1.0
 multidict==6.0.2
@@ -39,5 +40,6 @@ tomli==2.0.1
 typing_extensions==4.1.1
 tzdata==2021.5
 tzlocal==4.1
+win32-setctime==1.1.0
 wrapt==1.13.3
 yarl==1.7.2
