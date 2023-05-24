@@ -34,7 +34,7 @@ def IsAdmin(m):
     This filter checks whether the user is an administrator (in the list of administrators in the settings)
     :return: bool
     """
-    return (m.from_user.id in ADMINS)
+    return (m.from_user.username in ADMINS)
 
 
 def ContextButton(context_key: str, classes: list = LANGUAGES):
@@ -47,6 +47,12 @@ def ContextButton(context_key: str, classes: list = LANGUAGES):
             return
 
         for cls in classes:
-            if m.text == getattr(context[cls], context_key):
-                return True
+            attr = getattr(context[cls], context_key)
+            if type(attr) == list:
+                for i in attr:
+                    if m.text == i:
+                        return True
+            else:
+                if m.text == getattr(context[cls], context_key):
+                    return True
     return inner

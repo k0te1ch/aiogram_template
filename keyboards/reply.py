@@ -7,7 +7,7 @@ class ru:
     lang = "ru"
 
     cancel = ReplyKeyboardMarkup(resize_keyboard=True)
-    cancel = cancel.add(context[lang].cancel)
+    cancel.add(context[lang].cancel)
 
 
 class en:

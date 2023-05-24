@@ -4,7 +4,7 @@ SKIP_UPDATES = True
 
 # LOGGER SETTINGS
 # "TRACE", "DEBUG", "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"
-LOG_LEVEL = "DEBUG"
+LOG_LEVEL = "INFO"
 
 # default tg_server is official api server
 # it can be for example:
@@ -56,9 +56,16 @@ ADMINS = [
 HANDLERS = [
     "middlewares",
     "start",
-    "scheduler_example"
+    "scheduler_example",
+    "admin_panel"
 ]
 
 KEYBOARDS = [
-    "reply"
+    "reply",
+    "admin"
+]
+
+LANGUAGES = [
+    "ru",
+    "en"
 ]

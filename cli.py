@@ -1,3 +1,4 @@
+import asyncio
 import os
 import bot
 import click
@@ -10,9 +11,10 @@ from alembic import command as alembic
 from alembic.util.exc import CommandError
 
 from config import DATABASE_URL, HANDLERS, SKIP_UPDATES, HANDLERS_DIR, \
-    MODELS_DIR, ENABLE_APSCHEDULER, KEYBOARDS, KEYBOARDS_DIR
+    MODELS_DIR, ENABLE_APSCHEDULER
 
 from loguru import logger
+
 
 @logger.catch
 def get_alembic_conf():
@@ -53,7 +55,6 @@ def load_handlers():
 
 
 # CLI COMMANDS
-
 class CliGroup(click.Group):
     def list_commands(self, ctx):
         return [
@@ -103,7 +104,7 @@ def showmigrations(verbose):
 @click.option('-m', '--message', default=None)
 def makemigrations(message):
     if message is None:
-        logger.opt(colors=True).info("<y>Optinal: User -m <msg, --message=<msg> to give a message string to this migrate script</y>")
+        logger.opt(colors=True).info("<y>Optinal: User -m <msg, --message=\<msg\> to give a message string to this migrate script</y>")
         message = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
 
     models = [m[:-3] for m in os.listdir(MODELS_DIR) if m.endswith(".py")]

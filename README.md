@@ -11,6 +11,7 @@
 ## Features
 - Logging
 - Unit tests (in process)
+- Auto updating (in process)
 
 ## Example
 There's user model, example jobs and handlers for user registration already implemented in this repository that you can check and run. so don't forget to delete them when you start your project.

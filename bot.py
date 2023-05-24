@@ -51,7 +51,7 @@ except ImportError as err:
     exit()
 
 
-# OBJECT FOR BOT
+# OBJECTS FOR BOT
 
 class _SQLAlchemy(object):
     def __init__(self, db_url):
@@ -87,6 +87,10 @@ class _Context(object):
                 del frame
 
             return r
+        
+        elif isinstance(r, list):
+            return r
+
         elif isinstance(r, type):
             return _Context(r)
 
@@ -105,6 +109,10 @@ class _Context(object):
                 del frame
 
             return r
+        
+        elif isinstance(r, list):
+            return r
+
         elif isinstance(r, type):
             return _Context(r)
         
@@ -290,6 +298,7 @@ __all__ = [
     "db",
     "redis",
     "context",
+    "keyboards",
     "scheduler"
 ]
 
