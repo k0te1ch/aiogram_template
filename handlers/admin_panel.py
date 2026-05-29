@@ -1,50 +1,39 @@
-from aiogram.dispatcher.filters import CommandStart, Text, Command
-from aiogram.types import ReplyKeyboardRemove, CallbackQuery
+from aiogram import F, Router
+from aiogram.filters import Command
+from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 from loguru import logger
-from utils.bot_methods import reload_bot, shutdown_bot
 
-from bot import context, db, dp, keyboards
-from forms.admin_panel import AdminPanel
-from utils.dispatcher_filters import ContextButton, IsPrivate, IsAdmin
+from filters.dispatcher_filters import IsAdmin, IsPrivate
+from keyboards import admin_main_kb, bot_commands_kb
+from services import context
+from utils.bot_methods import shutdown_bot
 
-
-@dp.message_handler(IsPrivate, IsAdmin, Command(["admin_panel"]))
-async def start(msg, language):
-    logger.opt(colors=True).debug(f"[<y>{msg.from_user.username}</y>]: Call admin panel")
-
-    return await msg.answer(context[language].admin_panel_open, reply_markup=keyboards["admin"][language].main)
+router = Router(name="admin_panel")
 
 
-
-@dp.callback_query_handler(lambda msg: msg.data == "bot", IsPrivate, IsAdmin)
-async def bot(callback: CallbackQuery, language):
-    logger.opt(colors=True).debug(f"[<y>{callback.from_user.username}</y>]: Choose bot in admin panel")
-
-    return await callback.message.edit_text("Операции над ботом", reply_markup=keyboards["admin"][language].bot_commands)
+@router.message(Command("admin_panel"), IsPrivate, IsAdmin)
+async def open_panel(msg: Message, language: str):
+    logger.debug(f"[{msg.from_user.username}]: opened admin panel")
+    return await msg.answer(context[language].admin_panel_open, reply_markup=admin_main_kb(language))
 
 
-#TODO IN PROGRESS
-@dp.callback_query_handler(lambda msg: msg.data == "restart_bot", IsPrivate, IsAdmin)
-async def restart(callback: CallbackQuery, language):
-    logger.opt(colors=True).debug(f"[<y>{callback.from_user.username}</y>]: Restart bot")
-    
+@router.callback_query(F.data == "bot", IsAdmin)
+async def bot_menu(callback: CallbackQuery, language: str):
+    logger.debug(f"[{callback.from_user.username}]: admin -> bot menu")
     await callback.answer()
-    await callback.message.answer("Бот перезагружается", reply_markup=ReplyKeyboardRemove())
-    await reload_bot()
+    return await callback.message.edit_text(context[language].admin_panel_bot, reply_markup=bot_commands_kb(language))
 
 
-@dp.callback_query_handler(lambda msg: msg.data == "shutdown_bot", IsPrivate, IsAdmin)
-async def shutdown(callback: CallbackQuery, language):
-    logger.opt(colors=True).debug(f"[<y>{callback.from_user.username}</y>]: Shutdown bot")
-    
+@router.callback_query(F.data == "shutdown_bot", IsAdmin)
+async def shutdown(callback: CallbackQuery):
+    logger.debug(f"[{callback.from_user.username}]: admin -> shutdown")
     await callback.answer()
-    await callback.message.answer("Бот выключен", reply_markup=ReplyKeyboardRemove())
+    await callback.message.answer("Bot is shutting down", reply_markup=ReplyKeyboardRemove())
     await shutdown_bot()
 
 
-@dp.callback_query_handler(lambda msg: msg.data == "back", IsPrivate, IsAdmin)
-async def back(callback, language):
-    logger.opt(colors=True).debug(f"[<y>{callback.from_user.username}</y>]: Call back to admin panel")
-
+@router.callback_query(F.data == "back", IsAdmin)
+async def back(callback: CallbackQuery, language: str):
+    logger.debug(f"[{callback.from_user.username}]: admin -> back")
     await callback.answer()
-    return await callback.message.edit_text(context[language].admin_panel_open, reply_markup=keyboards["admin"][language].main)
+    return await callback.message.edit_text(context[language].admin_panel_open, reply_markup=admin_main_kb(language))

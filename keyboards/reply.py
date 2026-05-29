@@ -1,17 +1,10 @@
 from aiogram.types import ReplyKeyboardMarkup
+from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
-from bot import context
-
-
-class ru:
-    lang = "ru"
-
-    cancel = ReplyKeyboardMarkup(resize_keyboard=True)
-    cancel.add(context[lang].cancel)
+from services import context
 
 
-class en:
-    lang = "en"
-
-    cancel = ReplyKeyboardMarkup(resize_keyboard=True)
-    cancel.add(context[lang].cancel)
+def cancel_kb(language: str) -> ReplyKeyboardMarkup:
+    builder = ReplyKeyboardBuilder()
+    builder.button(text=context[language].cancel)
+    return builder.as_markup(resize_keyboard=True)

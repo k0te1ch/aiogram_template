@@ -1,11 +1,12 @@
-from sqlalchemy import String, Column, Boolean, DateTime, BigInteger, Integer
 from datetime import datetime as dt
 
-from bot import db
+from sqlalchemy import BigInteger, Boolean, Column, DateTime, Integer, String
+
+from services.db import db
 
 
 class User(db.Model):
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
     id = Column(BigInteger, primary_key=True, index=True)
     name = Column(String(128))
@@ -14,4 +15,4 @@ class User(db.Model):
     username = Column(String(32), nullable=True)
     joined_at = Column(DateTime, nullable=False, default=dt.utcnow)
     blocked = Column(Boolean, nullable=False, default=False)
-    deactived = Column(Boolean, nullable=False, default=False)
+    deactivated = Column(Boolean, nullable=False, default=False)
