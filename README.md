@@ -19,7 +19,7 @@ and a project workflow inherited from
 - **commitizen** — Conventional Commits validation and version bump
 - **git-cliff** — automated `CHANGELOG.md` + GitHub Release notes (CI)
 - **Docker / docker-compose** — bot + redis
-- **pytest** — test suite
+- **pytest** + **[aiogram-testing](https://github.com/k0te1ch/aiogram_tests)** — handler tests through the real dispatcher (`tests/test_handlers.py`), no Telegram needed
 
 ## Project layout
 
@@ -79,6 +79,9 @@ your own project.
    ```bash
    poetry run pytest
    ```
+
+   `tests/test_handlers.py` drives the bot's own dispatcher (`main.dp`) with `BotTester`: send messages, press
+   inline buttons and check FSM state. Live end-to-end checks against a real bot use tgtest (`pytest -m e2e`).
 
 The `Makefile` wraps the common commands (`make install`, `make run`, `make test`,
 `make lint`, `make format`, `make check`, `make bump`).
