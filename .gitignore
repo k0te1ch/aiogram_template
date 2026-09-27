@@ -226,3 +226,24 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# AI assistant artifacts — do not commit
+CLAUDE.md
+CLAUDE.local.md
+.claude/
+.planning/
+.cursorrules
+.cursorignore
+.aider*
+.windsurf/
+.continue/
+.github/copilot-instructions.md
+.codeium/
+.gemini/
+.roo/
+.clinerules
+GEMINI.md
+AGENTS.md
+.mcp.json
+.aislop/
+AISLOP.md
